@@ -1,16 +1,25 @@
-from typing import Any
 import streamlit as st
+from datetime import datetime
 
 import requests
 
-ehv_curl = "https://api.open-meteo.com/v1/forecast?latitude=51.44&longitude=5.48&current_weather=true"
-rom_curl = "https://api.open-meteo.com/v1/forecast?latitude=47.06&longitude=21.93&current_weather=true"
-utrecht_curl = "https://api.open-meteo.com/v1/forecast?latitude=52.09&longitude=5.12&current_weather=true"
+
+ehv_curl = "https://api.open-meteo.com/v1/forecast?latitude=51.44&longitude=5.48&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1"
+rom_curl = "https://api.open-meteo.com/v1/forecast?latitude=47.06&longitude=21.93&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1"
+utrecht_curl = "https://api.open-meteo.com/v1/forecast?latitude=52.09&longitude=5.12&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1"
 
 
-def get_current_weather(curl: str) -> dict[str, Any]:
+def get_current_weather(curl: str) -> tuple[float, int]:
     response = requests.get(curl)
-    return response.json()["current_weather"]
+
+    hourly_data = response.json()["hourly"]
+    time_stamps = hourly_data["time"]
+    now = datetime.now()
+    dtime_stamps = [abs(datetime.fromtimestamp(time_stamp) - now) for time_stamp in time_stamps]
+    now_idx = dtime_stamps.index(min(dtime_stamps))
+    temperature = hourly_data["temperature_2m"][now_idx]
+    weather_code = hourly_data["weathercode"][now_idx]
+    return temperature, weather_code
 
 
 def get_weather_code_description(code: int) -> str:
@@ -81,9 +90,8 @@ def get_weather_code_icon(code: int) -> str:
     return weather_code_icon[code]
 
 
-def display_weather(weather: dict, title=None):
-    temperature = weather['temperature']
-    weather_code = weather['weathercode']
+def display_weather(weather: tuple[float, int], title=None):
+    (temperature, weather_code) = weather
     description = get_weather_code_description(weather_code)
     icon = get_weather_code_icon(weather_code)
     st.header(title)
