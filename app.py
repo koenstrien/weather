@@ -86,7 +86,7 @@ def display_weather(weather: dict, title=None):
     weather_code = weather['weathercode']
     description = get_weather_code_description(weather_code)
     icon = get_weather_code_icon(weather_code)
-    st.header("Eindhoven")
+    st.header(title)
     st.subheader(f"{temperature}°C {icon} - {description}")
 
 
