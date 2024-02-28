@@ -3,16 +3,18 @@ from datetime import datetime
 
 import requests
 
+# Title: Latitude, Longitude
 WEATHER_TO_DISPLAY = {
-    "Eindhoven": "https://api.open-meteo.com/v1/forecast?latitude=51.44&longitude=5.48&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1",
-    "Romania": "https://api.open-meteo.com/v1/forecast?latitude=47.06&longitude=21.93&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1",
-    "Utrecht": "https://api.open-meteo.com/v1/forecast?latitude=52.09&longitude=5.12&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1",
-    "Heythuysen": "https://api.open-meteo.com/v1/forecast?latitude=51.25&longitude=5.89&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1",
-    "California": "https://api.open-meteo.com/v1/forecast?latitude=36.77&longitude=-119.41&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1",
+    "Eindhoven": (51.44, 5.48),
+    "Romania": (47.06, 21.93),
+    "Utrecht": (52.09, 5.12),
+    "Heythuysen": (51.25, 5.89),
+    "California": (36.77, -119.41),
 }
 
 
-def get_current_weather(curl: str) -> tuple[float, int]:
+def get_current_weather(latitude: float, longitude: float) -> tuple[float, int]:
+    curl = f"https://api.open-meteo.com/v1/forecast?latitude={latitude:.2f}&longitude={longitude:.2f}&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1"
     response = requests.get(curl)
 
     hourly_data = response.json()["hourly"]
@@ -93,13 +95,13 @@ def get_weather_code_icon(code: int) -> str:
     return weather_code_icon[code]
 
 
-def display_weather(curl: str, title=None):
-    (temperature, weather_code) = get_current_weather(curl)
+def display_weather(latitude: float, longitude: float, title=None):
+    (temperature, weather_code) = get_current_weather(latitude, longitude)
     description = get_weather_code_description(weather_code)
     icon = get_weather_code_icon(weather_code)
     st.header(title)
     st.subheader(f"{temperature}°C {icon} - {description}")
 
 st.set_page_config(layout="wide")
-for name, curl in WEATHER_TO_DISPLAY.items():
-    display_weather(curl, title=name) 
+for name, (latitude, longitude) in WEATHER_TO_DISPLAY.items():
+    display_weather(latitude, longitude, title=name) 
