@@ -94,7 +94,7 @@ def get_weather_code_icon(code: int) -> str:
 
 
 def display_weather(curl: str, title=None):
-    (temperature, weather_code) = get_current_weather(ehv_curl)
+    (temperature, weather_code) = get_current_weather(curl)
     description = get_weather_code_description(weather_code)
     icon = get_weather_code_icon(weather_code)
     st.header(title)
