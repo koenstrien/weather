@@ -3,12 +3,13 @@ from datetime import datetime
 
 import requests
 
-
-ehv_curl = "https://api.open-meteo.com/v1/forecast?latitude=51.44&longitude=5.48&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1"
-rom_curl = "https://api.open-meteo.com/v1/forecast?latitude=47.06&longitude=21.93&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1"
-utrecht_curl = "https://api.open-meteo.com/v1/forecast?latitude=52.09&longitude=5.12&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1"
-heythuysen_curl = "https://api.open-meteo.com/v1/forecast?latitude=51.25&longitude=5.89&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1"
-california_curl = "https://api.open-meteo.com/v1/forecast?latitude=36.77&longitude=-119.41&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1"
+WEATHER_TO_DISPLAY = {
+    "Eindhoven": "https://api.open-meteo.com/v1/forecast?latitude=51.44&longitude=5.48&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1",
+    "Romania": "https://api.open-meteo.com/v1/forecast?latitude=47.06&longitude=21.93&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1",
+    "Utrecht": "https://api.open-meteo.com/v1/forecast?latitude=52.09&longitude=5.12&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1",
+    "Heythuysen": "https://api.open-meteo.com/v1/forecast?latitude=51.25&longitude=5.89&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1",
+    "California", "https://api.open-meteo.com/v1/forecast?latitude=36.77&longitude=-119.41&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1",
+}
 
 
 def get_current_weather(curl: str) -> tuple[float, int]:
@@ -92,23 +93,12 @@ def get_weather_code_icon(code: int) -> str:
     return weather_code_icon[code]
 
 
-def display_weather(weather: tuple[float, int], title=None):
-    (temperature, weather_code) = weather
+def display_weather(curl: str, title=None):
+    (temperature, weather_code) = get_current_weather(ehv_curl)
     description = get_weather_code_description(weather_code)
     icon = get_weather_code_icon(weather_code)
     st.header(title)
     st.subheader(f"{temperature}°C {icon} - {description}")
 
-
-ehv_weather = get_current_weather(ehv_curl)
-rom_weather = get_current_weather(rom_curl)
-utrecht_weather = get_current_weather(utrecht_curl)
-heythuysen_weather = get_current_weather(heythuysen_curl)
-california_weather = get_current_weather(california_curl)
-
 st.set_page_config(layout="wide")
-display_weather(ehv_weather, title="Eindhoven")
-display_weather(utrecht_weather, title="Utrecht")
-display_weather(rom_weather, title="Romania")
-display_weather(heythuysen_weather, title="Heythuysen")
-display_weather(california_weather, title="California")
+display_weather(curl, title=name) for name, curl in WEATHER_TO_DISPLAY.items()
