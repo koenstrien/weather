@@ -101,4 +101,5 @@ def display_weather(curl: str, title=None):
     st.subheader(f"{temperature}°C {icon} - {description}")
 
 st.set_page_config(layout="wide")
-display_weather(curl, title=name) for name, curl in WEATHER_TO_DISPLAY.items()
+for name, curl in WEATHER_TO_DISPLAY.items():
+    display_weather(curl, title=name) 
