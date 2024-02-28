@@ -1,3 +1,4 @@
+# Title: Latitude, Longitude
 LOCATIONS = {
     "Eindhoven": (51.44, 5.48),
     "Romania": (47.06, 21.93),
