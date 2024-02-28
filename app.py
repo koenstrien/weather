@@ -3,14 +3,7 @@ from datetime import datetime
 
 import requests
 
-# Title: Latitude, Longitude
-WEATHER_TO_DISPLAY = {
-    "Eindhoven": (51.44, 5.48),
-    "Romania": (47.06, 21.93),
-    "Utrecht": (52.09, 5.12),
-    "Heythuysen": (51.25, 5.89),
-    "California": (36.77, -119.41),
-}
+from locations import LOCATIONS
 
 
 def get_current_weather(latitude: float, longitude: float) -> tuple[float, int]:
@@ -103,5 +96,5 @@ def display_weather(latitude: float, longitude: float, title=None):
     st.subheader(f"{temperature}°C {icon} - {description}")
 
 st.set_page_config(layout="wide")
-for name, (latitude, longitude) in WEATHER_TO_DISPLAY.items():
+for name, (latitude, longitude) in LOCATIONS.items():
     display_weather(latitude, longitude, title=name) 
