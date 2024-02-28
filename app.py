@@ -8,7 +8,7 @@ WEATHER_TO_DISPLAY = {
     "Romania": "https://api.open-meteo.com/v1/forecast?latitude=47.06&longitude=21.93&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1",
     "Utrecht": "https://api.open-meteo.com/v1/forecast?latitude=52.09&longitude=5.12&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1",
     "Heythuysen": "https://api.open-meteo.com/v1/forecast?latitude=51.25&longitude=5.89&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1",
-    "California", "https://api.open-meteo.com/v1/forecast?latitude=36.77&longitude=-119.41&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1",
+    "California": "https://api.open-meteo.com/v1/forecast?latitude=36.77&longitude=-119.41&hourly=temperature_2m,weathercode&timeformat=unixtime&forecast_days=1",
 }
 
 
