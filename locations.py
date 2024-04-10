@@ -5,4 +5,5 @@ LOCATIONS = {
     "Utrecht": (52.09, 5.12),
     "Heythuysen": (51.25, 5.89),
     "California": (36.77, -119.41),
+    "Stockholm": (59.33, 18.06),
 }
